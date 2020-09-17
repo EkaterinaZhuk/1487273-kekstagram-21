@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Kaтeнькa Ф](https://up.htmlacademy.ru/javascript/21/user/1487273).
-* Наставник: `Неизвестно`.
+* Наставник: [Илья Барашков](https://htmlacademy.ru/profile/mimir).
 
 ---
 
