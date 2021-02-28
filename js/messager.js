@@ -1,26 +1,26 @@
 "use strict";
 
-//Вставить сюда
+// Вставить сюда
 let chatContent = document.querySelector(".chat-content");
 
-//Шаблон
+// Шаблон
 let messageTemplate = document
   .querySelector("#message-template")
   .content.querySelector(".chat-message");
 
-//Фщрма для отправки
+// Фщрма для отправки
 let chatForm = document.querySelector(".chat-form");
 
-//Кнопка отправить, запрещаем отправку по умолчанию
+// Кнопка отправить, запрещаем отправку по умолчанию
 let chatFormButton = chatForm.querySelector(".chat-form-button");
 
-//Поле для ввода текста
+// Поле для ввода текста
 let chatFormInput = chatForm.querySelector(".chat-form-input");
 
 let addMessage = (textMessage) => {
   // Функция добавления сообщений в DOM
-  let message = messageTemplate.cloneNode(true); //Клонировали объект в пременную
-  let chatMessageButton = message.querySelector(".chat-message-button"); //Кнопка с крестиком
+  let message = messageTemplate.cloneNode(true); // Клонировали объект в пременную
+  let chatMessageButton = message.querySelector(".chat-message-button"); // Кнопка с крестиком
   let chatMessageText = message.querySelector(".chat-message-text"); // Добавление тексового содержимого value в переменную
   chatMessageText.textContent = textMessage; // Добавление тексового содержимого value в DOM
   chatMessageButton.addEventListener("click", function () {
