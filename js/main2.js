@@ -112,21 +112,6 @@ let submitButton = document.querySelector('.submit-button');
 let error = document.querySelector('.error');
 let  dataEvaluation = document.querySelector('data-evaluation');
 
-radios.forEach((item) => {
-    item.onchange = function(event) {
-      if (this.dataset.evaluation !== 'good'){ // Сравинвает атрибут
-       submitButton.disabled = true
-       error.classList.add('shown')
-        }else
-        {
-         error.classList.remove('shown')
-         submitButton.disabled = false
-          submitButton.addEventListener('click', function (evt){
-  evt.preventDefault()
-});
-          }
-    }
-});
 
 1. У всех радиокнопок есть класс review.
 2. Чтобы отслеживать переключение радиокнопок, нужно добавить обработчик событий onchange каждой радиокнопке.

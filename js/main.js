@@ -23,6 +23,22 @@ let caption = [
 // Массив с именами комментарий
 let names = ["Артем", "Антон", "Ярослав", "Евпатий", "Коловратий", "Григорий"];
 
+let bigPicture = document.querySelector(".big-picture ");
+let bigPictureImg = bigPicture.querySelector(".big-picture__img img");
+let likesCount = bigPicture.querySelector(".likes-count");
+let commentsCount = bigPicture.querySelector(".comments-count");
+let socialComments = bigPicture.querySelector(".social__comments");
+let socialComment = socialComments.querySelectorAll(".social__comment"); // returns NodeList
+let socialCommentArray = Array.prototype.slice.call(socialComment); // преобразует NodeList в Array (Массив из 2 списков)
+let socialCommentCount = bigPicture.querySelector(".social__comment-count");
+let socialCaption = bigPicture.querySelector(".social__caption");
+socialCommentCount.classList.add("hidden");
+let commentsLoader = document.querySelector(".comments-loader");
+commentsLoader.classList.add("hidden");
+let body = document.querySelector("body");
+body.classList.add("modal-open");
+let bigPictureCancel = document.querySelector("#picture-cancel"); // кнопка закрытия //
+
 // Функция для создания рандомного значения
 const getRandomIntInclusive = (min, max) => {
   min = Math.ceil(min);
@@ -55,7 +71,7 @@ const createPhoto = () => {
 createPhoto();
 // console.log(fotos);
 
-/* ------------------- */
+/* ------------------------------------------------------------------------------------------------------ */
 let usersFotos = document.querySelector(".pictures"); // вставить в этот элемент
 let templatePicture = document
   .querySelector("#picture") // шаблон для копирования
@@ -69,6 +85,11 @@ let renderFoto = (foto) => {
   pictureImg.src = foto.url;
   pictureComments.textContent = foto.comments.length;
   pictureLikes.textContent = foto.likes;
+  // ----------------------------------------- Добавление Фото в  просмотр при нажатии //
+  pictureImg.onclick = function () {
+    bigPictureImg.src = foto.url;
+    bigPicture.classList.remove("hidden");
+  };
 
   return fotoElement;
 };
@@ -80,24 +101,16 @@ for (let i = 0; i < fotos.length; i++) {
 usersFotos.appendChild(fragment);
 
 // ========================================================================Второе задание==========================================================================//
-let bigPicture = document.querySelector(".big-picture ");
 
-let bigPictureImg = bigPicture.querySelector(".big-picture__img img");
-bigPicture.classList.remove("hidden");
-let likesCount = bigPicture.querySelector(".likes-count");
-let commentsCount = bigPicture.querySelector(".comments-count");
-let socialComments = bigPicture.querySelector(".social__comments");
-let socialComment = socialComments.querySelectorAll(".social__comment"); // returns NodeList
-let socialCommentArray = Array.prototype.slice.call(socialComment); // преобразует NodeList в Array (Массив из 2 списков)
-let socialCommentCount = bigPicture.querySelector(".social__comment-count");
-let socialCaption = bigPicture.querySelector(".social__caption");
-socialCommentCount.classList.add("hidden");
-let commentsLoader = document.querySelector(".comments-loader");
-commentsLoader.classList.add("hidden");
-let body = document.querySelector("body");
-body.classList.add("modal-open");
+// picture.forEach((item) => {
+//   // Функция перебора  //
+//   item.onclick = function () {
+//     // Функция клика по маленькой фотографии //
+//     bigPictureImg.src = foto.url;
+//     console.log(item);
+//   };
+// });
 
-bigPictureImg.src = fotos[0].url;
 likesCount.textContent = fotos[0].likes;
 commentsCount.textContent = getRandomIntInclusive(1, 50);
 
@@ -107,16 +120,60 @@ socialCommentArray.forEach((item, index) => {
   let socialText = item.querySelector(".social__text"); // Комментарий
   socialPicture.src = fotos[0].comments[index].avatar; // Добавляем слуайный аватар
   socialText.textContent = fotos[0].comments[index].message;
-
-  // console.log(socialText);
-  // return item
 });
 
 socialCaption.innerHTML = caption[0]; // Описание фотографии
 
-// likesCount.textContent = bigPictures.likes;
-// commentsCount.textContent = bigPictures.comments;
-// socialCaption.innerHTML = bigPictures.description;
-// ......................................................................................... //
+// ....................................... Отслеживание и закрытие большой фотографии .................................................. //
+bigPictureCancel.addEventListener("click", function () {
+  bigPicture.classList.add("hidden");
+});
+document.addEventListener("keydown", function (evt) {
+  if (evt.key === "Escape") {
+    bigPicture.classList.add("hidden");
+  }
+});
+// ....................................... Отслеживание и закрытие большой фотографии .................................................. //
 
+let uploadFile = document.querySelector("#upload-file"); // Кнопка загрузки фотографий //
+let imgUploadOverlay = document.querySelector(".img-upload__overlay"); // Окно редактирования //
+let uploadCancel = document.querySelector("#upload-cancel"); // Кнопка закрытия окна редактирования //
+uploadFile.onchange = () => {
+  imgUploadOverlay.classList.remove("hidden"); // Показываем окно редактирования //
+  body.classList.add("modal-open"); // Модальное окно открыто на все BODY //
+};
+
+// ===================================== Прячем окно рндактирования фотографии ===================================== //
+uploadCancel.addEventListener("click", function () {
+  imgUploadOverlay.classList.add("hidden");
+  body.classList.remove("modal-open");
+  uploadFile.value = uploadFile.defaultValue; // Сбрасываем значение defaultValue //
+});
+
+document.addEventListener("keydown", function (evt) {
+  if (evt.key === "Escape") {
+    imgUploadOverlay.classList.add("hidden");
+    body.classList.remove("modal-open");
+    uploadFile.value = uploadFile.defaultValue; // Сбрасываем значение defaultValue //
+  }
+});
+// ===================================== Прячем окно рндактирования фотографии ===================================== //
+
+// console.log(bigPictureCancel);
 // userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+// radios.forEach((item) => {
+//   item.onchange = function (event) {
+//     if (this.dataset.evaluation !== "good") {
+//       // Сравинвает атрибут
+//       submitButton.disabled = true;
+//       error.classList.add("shown");
+//     } else {
+//       error.classList.remove("shown");
+//       submitButton.disabled = false;
+//       submitButton.addEventListener("click", function (evt) {
+//         evt.preventDefault();
+//       });
+//     }
+//   };
+// });
