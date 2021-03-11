@@ -37,20 +37,24 @@
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
-              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required>
+              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename"
+                accept="image/png, image/jpeg" required>
+              <!--    Указать расширения изображений-->
               <label for="upload-file" class="img-upload__label  img-upload__control">Загрузить</label>
             </fieldset>
 
             <!-- Форма редактирования изображения -->
-            <div class="img-upload__overlay  hidden">
+            <div class="img-upload__overlay ">
+              <!-- Добавить класс hidden-->
               <div class="img-upload__wrapper">
                 <div class="img-upload__preview-container">
 
                   <!-- Изменение размера изображения -->
                   <fieldset class="img-upload__scale  scale">
                     <button type="button" class="scale__control  scale__control--smaller">Уменьшить</button>
-                    <input type="text" class="scale__control  scale__control--value" value="55%" title="Image Scale"
+                    <input type="text" class="scale__control  scale__control--value" value="100" title="Image Scale"
                       name="scale" readonly>
+                    <span>%</span>
                     <button type="button" class="scale__control  scale__control--bigger">Увеличить</button>
                   </fieldset>
 
