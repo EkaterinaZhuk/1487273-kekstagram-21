@@ -274,20 +274,3 @@ const onSplitString = (stringToSplit, space) => {
   let splitStringText = stringToSplit.split(space);
   textHashtagsValue = splitStringText.filter(Boolean); // Удалить пустой элемент массива
 };
-
-// textHashtagsValue.reduce((x, y) => (x.includes(y) ? x : [...x, y]), []);  Метод сортировки одинаковых элементов массива
-
-//let onTextHashtags = () => {};
-// textHashtags.addEventListener("invalid", () => {
-//    if (textHashtags.validity.tooShort) {
-//      textHashtags.setCustomValidity("Имя должно состоять минимум из 2-х символов");
-//    } else if (textHashtags.validity.tooLong) {
-//      textHashtags.setCustomValidity("Имя не должно превышать 20-ти символов");
-//       максимальная длина одного хэш-тега 20 символов
-//    } else {
-//      textHashtags.setCustomValidity("");
-//    }
-//  });
-//  console.log(textHashtags.value);
-
-// ===================================== Работа с # ===================================== //
