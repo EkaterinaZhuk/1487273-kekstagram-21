@@ -26,6 +26,9 @@
   let likesCount = bigPicture.querySelector(".likes-count");
   let commentsCount = bigPicture.querySelector(".comments-count");
   let socialCommentArray = Array.prototype.slice.call(socialComment); // преобразует NodeList в Array (Массив из 2 списков)
+  let social = document.querySelector(".social");
+  let socialPicture = social.querySelector(".social__picture");
+
   let socialCaption = bigPicture.querySelector(".social__caption");
   let getRandomIntInclusive = (min, max) => {
     min = Math.ceil(min);
@@ -37,6 +40,7 @@
     let pictureImg = fotoElement.querySelector(".picture__img"); // Элемент с фото
     let pictureComments = fotoElement.querySelector(".picture__comments");
     let pictureLikes = fotoElement.querySelector(".picture__likes");
+
     pictureImg.src = foto.url;
     pictureComments.textContent = foto.comments.length;
     pictureLikes.textContent = foto.likes;
@@ -44,12 +48,25 @@
     // ----------------------------------------- Добавление Фото в полноэкранный просмотр при нажатии //
     pictureImg.addEventListener("click", function () {
       bigPictureImg.src = foto.url;
+      likesCount.textContent = foto.likes;
+      socialCaption.innerHTML = foto.description;
+      socialPicture.src = foto.url;
+      console.log(socialPicture);
+
+      socialCommentArray.forEach((item, index) => {
+        let socialPicture = item.querySelector(".social__picture");
+        let socialText = item.querySelector(".social__text");
+        socialPicture.src = foto.comments[index].avatar;
+        socialText.textContent = foto.comments[index].message;
+      });
+
       bigPicture.classList.remove("hidden");
     });
 
     fotoElement.addEventListener("keydown", function (evt) {
       if (evt.key === "Enter") {
         bigPictureImg.src = foto.url;
+
         bigPicture.classList.remove("hidden");
       }
     });
@@ -57,22 +74,33 @@
     return fotoElement;
   };
 
-  let fragment = document.createDocumentFragment();
-  for (let i = 0; i < fotos.length; i++) {
-    fragment.appendChild(renderFoto(fotos[i]));
-  }
-  usersFotos.appendChild(fragment);
+  window.loadFotos(function (fotos) {
+    let fragment = document.createDocumentFragment();
 
-  likesCount.textContent = fotos[0].likes;
-  commentsCount.textContent = getRandomIntInclusive(1, 50);
+    for (let i = 0; i < fotos.length; i++) {
+      fragment.appendChild(renderFoto(fotos[i]));
+    }
+    usersFotos.appendChild(fragment);
+    // likesCount.textContent = fotos[0].likes;
+    // commentsCount.textContent = getRandomIntInclusive(1, 50);
 
-  socialCommentArray.forEach((item, index) => {
-    // перебираем массив с 2 списками по значению
-    let socialPicture = item.querySelector(".social__picture"); // Аватар и имя комментатора
-    let socialText = item.querySelector(".social__text"); // Комментарий
-    socialPicture.src = fotos[0].comments[index].avatar; // Добавляем слуайный аватар
-    socialText.textContent = fotos[0].comments[index].message;
+    // socialCommentArray.forEach((item, index) => {
+    //   let socialPicture = item.querySelector(".social__picture");
+    //   let socialText = item.querySelector(".social__text");
+    //   socialPicture.src = fotos[0].comments[index].avatar;
+    //   socialText.textContent = fotos[0].comments[index].message;
+    // socialCaption.innerHTML = caption[0];
+    // });
   });
 
-  socialCaption.innerHTML = caption[0]; // Описание фотографии
+  // let fragment = document.createDocumentFragment();
+  // for (let i = 0; i < fotos.length; i++) {
+  //   fragment.appendChild(renderFoto(fotos[i]));
+  // }
+  // usersFotos.appendChild(fragment);
+
+  // likesCount.textContent = fotos[0].likes;
+  // commentsCount.textContent = getRandomIntInclusive(1, 50);
+  // socialCaption.innerHTML = caption[0];
+  // Описание фотографии
 })();

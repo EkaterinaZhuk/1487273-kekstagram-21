@@ -28,6 +28,7 @@
     scaleControlValue.value = number;
     imgUploadPreview.style.transform = `scale(${number / 100})`;
   });
+
   scaleControlBigger.addEventListener("click", function () {
     let number;
     let scaleValue = Number(scaleControlValue.value);

@@ -47,8 +47,8 @@
         likes: getRandomIntInclusive(15, 200),
         comments: [createComment(), createComment()],
       };
-      fotos.push(foto); //
+      fotos.push(foto);
     }
   };
-  createPhoto();
+  // createPhoto();
 })();

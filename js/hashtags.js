@@ -8,7 +8,7 @@
   let textHashtagsValue = [];
   let space = " ";
   let comma = ",";
-  textHashtags.addEventListener("input", () => {
+  textHashtags.addEventListener("input", function () {
     textHashtagsValue = textHashtags.value;
     onSplitString(textHashtagsValue, space);
     let re = /^#[\w+]*$/g;
@@ -41,8 +41,11 @@
     });
   });
 
-  const onSplitString = (stringToSplit, space) => {
+  let onSplitString = (stringToSplit, space) => {
     let splitStringText = stringToSplit.split(space);
     textHashtagsValue = splitStringText.filter(Boolean); // Удалить пустой элемент массива
+    // console.log(splitStringText.filter(Boolean));
   };
+  let effectsPreviewSepia = document.querySelector(".effects__preview--sepia");
+  // console.log(effectsPreview.style);
 })();
