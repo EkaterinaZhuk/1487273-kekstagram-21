@@ -54,20 +54,29 @@
       likesCount.textContent = foto.likes;
       socialCaption.innerHTML = foto.description;
       socialPicture.src = foto.url;
-      // сделать проверку на длинну массива комментариев меньше 5 иначе 5 через **** a ? 5 : b; тернарный оператор
-      // завернуть верстку коментария в темплейт, и по примеру в цикле вызвать функцию рендера комментария
-      socialCommentArray.forEach((item, index) => {
+
+      // Функция рендера комментария
+      let renderComents = (comment) => {
         let socialPicture = item.querySelector(".social__picture");
         let socialText = item.querySelector(".social__text");
         socialPicture.src = foto.comments[index].avatar;
         socialText.textContent = foto.comments[index].message;
-        // Добавить условие на отобрежения комментарий
-      });
+      };
+
+      let fragment = document.createDocumentFragment();
+
+      for (let i = 0; i < foto.comments.length; i++) {
+        fragment.appendChild(renderComents(fotos[i]));
+      }
+      usersFotos.appendChild(fragment);
+
+      // сделать проверку на длинну массива комментариев меньше 5 иначе 5 через **** a ? 5 : b; тернарный оператор
+      // завернуть верстку коментария в темплейт, и по примеру в цикле вызвать функцию рендера комментария
 
       socialCommentCount.textContent = foto.comments.length;
 
-      // if (let i = 1; i >= foto.comments.length; i++){
-      //   for (i == foto.comments.length){
+      //for (let i = 1; i >= foto.comments.length; i++){
+      //   if (i == foto.comments.length){
       //     socialCommentCount.classList.add("hidden");
       //   }else{socialCommentCount.classList.remove("hidden")}
       // }
@@ -94,6 +103,7 @@
       fragment.appendChild(renderFoto(fotos[i]));
     }
     usersFotos.appendChild(fragment);
+
     // likesCount.textContent = fotos[0].likes;
     // commentsCount.textContent = getRandomIntInclusive(1, 50);
 
