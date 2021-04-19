@@ -1,22 +1,24 @@
 "use strict";
 (function () {
-  let caption = [
-    "Тестим новую камеру! =)",
-    "Хорошая погода! =)",
-    "Хорошее путешествие! =)",
-    "Побыватьбы там еще! =)",
-    "Просто картинка! =)",
-    "Пока выкладывал это фото, Кекс обосрался! =)",
-  ];
+  // let caption = [
+  //   "Тестим новую камеру! =)",
+  //   "Хорошая погода! =)",
+  //   "Хорошее путешествие! =)",
+  //   "Побыватьбы там еще! =)",
+  //   "Просто картинка! =)",
+  //   "Пока выкладывал это фото, Кекс обосрался! =)",
+  // ];
 
   let templatePicture = document
     .querySelector("#picture") // шаблон для копирования
     .content.querySelector(".picture");
   window.bigPicture = document.querySelector(".big-picture");
-  let socialCommentCount = bigPicture.querySelector(".social__comment-count");
-  socialCommentCount.classList.add("hidden");
+  let socialCommentCount = bigPicture.querySelector(
+    ".social__comment-count span"
+  );
+
   let commentsLoader = document.querySelector(".comments-loader");
-  commentsLoader.classList.add("hidden");
+
   let socialComments = bigPicture.querySelector(".social__comments");
 
   let socialComment = socialComments.querySelectorAll(".social__comment"); // returns NodeList
@@ -26,6 +28,8 @@
   let likesCount = bigPicture.querySelector(".likes-count");
   let commentsCount = bigPicture.querySelector(".comments-count");
   let socialCommentArray = Array.prototype.slice.call(socialComment); // преобразует NodeList в Array (Массив из 2 списков)
+  // socialCommentArray.document.createElement('li');
+  // console.log(socialCommentArray);
   let social = document.querySelector(".social");
   let socialPicture = social.querySelector(".social__picture");
 
@@ -45,29 +49,38 @@
     pictureComments.textContent = foto.comments.length;
     pictureLikes.textContent = foto.likes;
 
-    // ----------------------------------------- Добавление Фото в полноэкранный просмотр при нажатии //
-    pictureImg.addEventListener("click", function () {
+    let loadDatabase = () => {
       bigPictureImg.src = foto.url;
       likesCount.textContent = foto.likes;
       socialCaption.innerHTML = foto.description;
       socialPicture.src = foto.url;
-      console.log(socialPicture);
-
+      // сделать проверку на длинну массива комментариев меньше 5 иначе 5 через **** a ? 5 : b; тернарный оператор
+      // завернуть верстку коментария в темплейт, и по примеру в цикле вызвать функцию рендера комментария
       socialCommentArray.forEach((item, index) => {
         let socialPicture = item.querySelector(".social__picture");
         let socialText = item.querySelector(".social__text");
         socialPicture.src = foto.comments[index].avatar;
         socialText.textContent = foto.comments[index].message;
+        // Добавить условие на отобрежения комментарий
       });
 
+      socialCommentCount.textContent = foto.comments.length;
+
+      // if (let i = 1; i >= foto.comments.length; i++){
+      //   for (i == foto.comments.length){
+      //     socialCommentCount.classList.add("hidden");
+      //   }else{socialCommentCount.classList.remove("hidden")}
+      // }
       bigPicture.classList.remove("hidden");
+    };
+    // ----------------------------------------- Добавление Фото в полноэкранный просмотр при нажатии //
+    pictureImg.addEventListener("click", function () {
+      loadDatabase();
     });
 
     fotoElement.addEventListener("keydown", function (evt) {
       if (evt.key === "Enter") {
-        bigPictureImg.src = foto.url;
-
-        bigPicture.classList.remove("hidden");
+        loadDatabase();
       }
     });
 
