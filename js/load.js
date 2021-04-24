@@ -15,7 +15,6 @@
       } else {
         onError("Статус ответа: " + xhr.status + "" + xhr.statusText);
       }
-      // window.fotos = xhr.response;
     });
     xhr.addEventListener("error", function () {
       onError("Произошла ошибка соединения");

@@ -89,6 +89,7 @@
 
   let form = document.querySelector("#upload-select-image");
   form.addEventListener("submit", function (evt) {
+    evt.preventDefault();
     window.upload(new FormData(form), function () {
       imgUploadOverlay.classList.add("hidden");
     });

@@ -5,14 +5,14 @@
   let minNameLength = 2;
   let maxNameLength = 20;
   let maxItemHashtags = 5;
-  let textHashtagsValue = [];
+  window.textHashtagsValue = [];
   let space = " ";
   let comma = ",";
   textHashtags.addEventListener("input", function () {
     textHashtagsValue = textHashtags.value;
     onSplitString(textHashtagsValue, space);
     let re = /^#[\w+]*$/g;
-    console.log(re.test(textHashtagsValue));
+
     console.log(textHashtagsValue);
     let valueLength = textHashtags.value.length;
     textHashtagsValue.forEach((item) => {

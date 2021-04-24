@@ -1,33 +1,31 @@
 "use strict";
 (function () {
-  // let caption = [
-  //   "Тестим новую камеру! =)",
-  //   "Хорошая погода! =)",
-  //   "Хорошее путешествие! =)",
-  //   "Побыватьбы там еще! =)",
-  //   "Просто картинка! =)",
-  //   "Пока выкладывал это фото, Кекс обосрался! =)",
-  // ];
+  let templateComment = document
+    .querySelector("#comment")
+    .content.querySelector(".social__comment");
 
   let templatePicture = document
     .querySelector("#picture") // шаблон для копирования
     .content.querySelector(".picture");
   window.bigPicture = document.querySelector(".big-picture");
+
   let socialCommentCount = bigPicture.querySelector(
     ".social__comment-count span"
   );
 
-  let commentsLoader = document.querySelector(".comments-loader");
+  let commentsLoader = document.querySelector(".comments-loader"); // Загрузить
 
-  let socialComments = bigPicture.querySelector(".social__comments");
+  let socialComments = bigPicture.querySelector(".social__comments"); // ul , куда неужно закинуть данные из template
 
-  let socialComment = socialComments.querySelectorAll(".social__comment"); // returns NodeList
+  // let socialComment = socialComments.querySelectorAll(".social__comment");
+  //===================================================================================== returns NodeList
 
   let bigPictureImg = bigPicture.querySelector(".big-picture__img img");
   let usersFotos = document.querySelector(".pictures"); // вставить в этот элемент
   let likesCount = bigPicture.querySelector(".likes-count");
   let commentsCount = bigPicture.querySelector(".comments-count");
-  let socialCommentArray = Array.prototype.slice.call(socialComment); // преобразует NodeList в Array (Массив из 2 списков)
+  // let socialCommentArray = Array.prototype.slice.call(socialComment);
+  //================================================================================ преобразует NodeList в Array (Массив из 2 списков)
   // socialCommentArray.document.createElement('li');
   // console.log(socialCommentArray);
   let social = document.querySelector(".social");
@@ -39,6 +37,18 @@
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min; // Максимум и минимум включаются
   };
+
+  // Функция рендера комментария
+  let renderComent = (comment) => {
+    let commentElement = templateComment.cloneNode(true);
+    let socialPicture = commentElement.querySelector(".social__picture"); // вставляем иконку в template
+    let socialText = commentElement.querySelector(".social__text"); // вставляем текст в template
+    socialPicture.src = comment.avatar;
+    socialText.textContent = comment.message;
+    return commentElement;
+  };
+
+  //
   let renderFoto = (foto) => {
     let fotoElement = templatePicture.cloneNode(true);
     let pictureImg = fotoElement.querySelector(".picture__img"); // Элемент с фото
@@ -49,37 +59,25 @@
     pictureComments.textContent = foto.comments.length;
     pictureLikes.textContent = foto.likes;
 
+    let lastCommentIndex = 0; // переменная хранит последний индекс комментария
+
+    let renderFiveComements = () => {
+      let fragment = document.createDocumentFragment();
+      for (let i = lastCommentIndex; i < lastCommentIndex + 5; i++) {
+        fragment.appendChild(renderComent(foto.comments[i]));
+      }
+      socialComments.appendChild(fragment); // Заменить дабавление в конце на присвоение
+    };
+
     let loadDatabase = () => {
       bigPictureImg.src = foto.url;
       likesCount.textContent = foto.likes;
       socialCaption.innerHTML = foto.description;
       socialPicture.src = foto.url;
 
-      // Функция рендера комментария
-      let renderComents = (comment) => {
-        let socialPicture = item.querySelector(".social__picture");
-        let socialText = item.querySelector(".social__text");
-        socialPicture.src = foto.comments[index].avatar;
-        socialText.textContent = foto.comments[index].message;
-      };
-
-      let fragment = document.createDocumentFragment();
-
-      for (let i = 0; i < foto.comments.length; i++) {
-        fragment.appendChild(renderComents(fotos[i]));
-      }
-      usersFotos.appendChild(fragment);
-
-      // сделать проверку на длинну массива комментариев меньше 5 иначе 5 через **** a ? 5 : b; тернарный оператор
-      // завернуть верстку коментария в темплейт, и по примеру в цикле вызвать функцию рендера комментария
+      renderFiveComements();
 
       socialCommentCount.textContent = foto.comments.length;
-
-      //for (let i = 1; i >= foto.comments.length; i++){
-      //   if (i == foto.comments.length){
-      //     socialCommentCount.classList.add("hidden");
-      //   }else{socialCommentCount.classList.remove("hidden")}
-      // }
       bigPicture.classList.remove("hidden");
     };
     // ----------------------------------------- Добавление Фото в полноэкранный просмотр при нажатии //
@@ -92,7 +90,10 @@
         loadDatabase();
       }
     });
-
+    commentsLoader.addEventListener("click", function () {
+      lastCommentIndex += 5;
+      renderFiveComements();
+    }); // кнопка загрузки комментария
     return fotoElement;
   };
 
@@ -103,27 +104,5 @@
       fragment.appendChild(renderFoto(fotos[i]));
     }
     usersFotos.appendChild(fragment);
-
-    // likesCount.textContent = fotos[0].likes;
-    // commentsCount.textContent = getRandomIntInclusive(1, 50);
-
-    // socialCommentArray.forEach((item, index) => {
-    //   let socialPicture = item.querySelector(".social__picture");
-    //   let socialText = item.querySelector(".social__text");
-    //   socialPicture.src = fotos[0].comments[index].avatar;
-    //   socialText.textContent = fotos[0].comments[index].message;
-    // socialCaption.innerHTML = caption[0];
-    // });
   });
-
-  // let fragment = document.createDocumentFragment();
-  // for (let i = 0; i < fotos.length; i++) {
-  //   fragment.appendChild(renderFoto(fotos[i]));
-  // }
-  // usersFotos.appendChild(fragment);
-
-  // likesCount.textContent = fotos[0].likes;
-  // commentsCount.textContent = getRandomIntInclusive(1, 50);
-  // socialCaption.innerHTML = caption[0];
-  // Описание фотографии
 })();
